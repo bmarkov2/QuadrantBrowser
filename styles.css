@@ -54,9 +54,9 @@ nav {
 }
 
 .hero-logo {
-    width: 50%;
+    width: 80%;
     height: auto;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
 }
 
 nav ul {
@@ -81,7 +81,7 @@ main {
 }
 
 section {
-    padding: 4rem 2rem;
+    padding: 3rem 1rem;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -90,14 +90,20 @@ section {
     text-align: center;
     background-color: var(--secondary-color);
     color: var(--light-text);
-    padding: 6rem 2rem;
-    border-bottom: 2px solid var(--primary-color);
+    padding: 3rem 1rem;
+    border: 2px solid var(--primary-color);
 }
 
 .hero h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
-    color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.hero h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
 }
 
 .cta-button {
