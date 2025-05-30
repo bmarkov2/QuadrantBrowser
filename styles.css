@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #FF0000;
+    --primary-color: #f20303;
     --secondary-color: #1A1A1A;
     --text-color: #FFFFFF;
     --light-text: #FFFFFF;
@@ -43,6 +43,20 @@ nav {
     color: var(--light-text);
     font-size: 1.5rem;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-logo {
+    height: 40px;
+    width: auto;
+}
+
+.hero-logo {
+    width: 200px;
+    height: auto;
+    margin-bottom: 2rem;
 }
 
 nav ul {
