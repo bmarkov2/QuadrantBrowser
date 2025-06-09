@@ -19,8 +19,8 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background: linear-gradient(to bottom, var(--color-bg-translucent), transparent 20%);
-    /*background-color: var(--background-color);*/
+    background-color: var(--background-color);
+    /*background: linear-gradient(to bottom, var(--color-bg-translucent), transparent 20%);*/
 }
 
 header {
@@ -104,6 +104,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--background-color);
 }
 
 .hero h1 {
