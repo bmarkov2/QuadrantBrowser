@@ -231,6 +231,8 @@ footer {
         min-height: 300px;
         aspect-ratio: 16/9;
         padding: 2rem 1rem;
+        background-size: cover;
+        background-position: center;
     }
 
     .hero h1 {
@@ -246,5 +248,25 @@ footer {
     .hero {
         min-height: 300px;
         aspect-ratio: 16/9;
+        background-size: cover;
+        background-position: center;
+    }
+}
+
+/* Add specific portrait mode handling */
+@media (max-width: 768px) and (orientation: portrait) {
+    .hero {
+        aspect-ratio: 16/9;
+        background-size: contain;
+        background-position: bottom center;
+        min-height: 480px;
+    }
+} 
+@media (max-width: 480px) and (orientation: portrait) {
+    .hero {
+        aspect-ratio: 16/9;
+        background-size: contain;
+        background-position: bottom center;
+        min-height: 290px;
     }
 } 
