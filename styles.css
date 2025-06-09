@@ -6,6 +6,7 @@
     --background-color: #000000;
     --card-background: #1A1A1A;
     --hover-color: #CC0000;
+    --color-bg-translucent: hsla(0, 0%, 100%, 0.144);
 }
 
 * {
@@ -18,7 +19,8 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background-color: var(--background-color);
+    background: linear-gradient(to bottom, var(--color-bg-translucent), transparent 20%);
+    /*background-color: var(--background-color);*/
 }
 
 header {
@@ -88,10 +90,14 @@ section {
 
 .hero {
     text-align: center;
-    background-color: var(--secondary-color);
+    background-image: url('images/QuadrantBrowserAdV3.png');
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat; 
     color: var(--light-text);
-    padding: 3rem 1rem;
+    padding: 3rem 2rem;
     border: 2px solid var(--primary-color);
+    min-height: 700px;
 }
 
 .hero h1 {
