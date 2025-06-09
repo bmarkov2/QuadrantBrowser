@@ -227,7 +227,23 @@ footer {
         margin-top: 1rem;
     }
 
+    .hero {
+        min-height: 500px;
+        aspect-ratio: auto;
+        padding: 2rem 1rem;
+    }
+
     .hero h1 {
         font-size: 2rem;
+    }
+
+    .hero h2 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 400px;
     }
 } 
