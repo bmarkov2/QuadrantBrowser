@@ -92,12 +92,18 @@ section {
     text-align: center;
     background-image: url('images/QuadrantBrowserAdV3.png');
     background-size: cover;
-    background-position: 50%;
+    background-position: center;
     background-repeat: no-repeat; 
     color: var(--light-text);
     padding: 3rem 2rem;
     border: 2px solid var(--primary-color);
-    min-height: 700px;
+    /* height: 700px; */
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero h1 {
@@ -198,6 +204,16 @@ footer {
     padding: 1rem;
     margin-top: 4rem;
     border-top: 2px solid var(--primary-color);
+}
+
+.hero > div {
+    position: relative;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 800px;
+    width: 90%;
 }
 
 @media (max-width: 768px) {
