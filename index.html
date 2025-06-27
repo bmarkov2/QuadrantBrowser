@@ -17,9 +17,90 @@
                 <li><a href="#features">Features</a></li>
                 <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#download">Download</a></li>
+                <li><a href="#" id="loginBtn" class="login-button">Login</a></li>
             </ul>
         </nav>
     </header>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="login-form">
+                <h2>Login to QuadrantBrowser</h2>
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+                <div id="successMessage" class="success-message" style="display: none;"></div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" id="forgotPassword" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="login-submit-btn">Sign In</button>
+                </form>
+                
+                <div class="login-footer">
+                    <p>Don't have an account? <a href="#" id="showRegister">Create Account</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="login-form">
+                <h2>Create Account</h2>
+                <div id="registerErrorMessage" class="error-message" style="display: none;"></div>
+                <div id="registerSuccessMessage" class="success-message" style="display: none;"></div>
+                
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerEmail">Email Address</label>
+                        <input type="email" id="registerEmail" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" name="password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required>
+                            <span>I agree to the <a href="#" class="terms-link">Terms of Service</a></span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="login-submit-btn">Create Account</button>
+                </form>
+                
+                <div class="login-footer">
+                    <p>Already have an account? <a href="#" id="showLogin">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main>
         <section class="hero">
@@ -85,5 +166,7 @@
     <footer>
         <p>&copy; 2024 Quadrant Browser. All rights reserved.</p>
     </footer>
+
+    <script src="auth.js"></script>
 </body>
 </html>
