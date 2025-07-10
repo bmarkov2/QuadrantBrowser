@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test - Quadrant Browser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quadrant Browser API Test</h1>
+    
+    <div class="test-section">
+        <h2>API Configuration</h2>
+        <p><strong>API Base URL:</strong> <span id="apiUrl">http://64.225.29.147:5000</span></p>
+        <p><strong>Current Page:</strong> <span id="currentPage"></span></p>
+        <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+    </div>
+
+    <div class="test-section">
+        <h2>Basic Connectivity Test</h2>
+        <button class="test-button" onclick="testBasicConnectivity()">Test Basic Connectivity</button>
+        <div id="basicResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Login Test</h2>
+        <input type="email" id="testEmail" placeholder="Email" value="test@example.com" style="padding: 8px; margin: 5px;">
+        <input type="password" id="testPassword" placeholder="Password" value="testpass123" style="padding: 8px; margin: 5px;">
+        <button class="test-button" onclick="testLogin()">Test Login</button>
+        <div id="loginResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Registration Test</h2>
+        <input type="email" id="regEmail" placeholder="Email" value="newuser@example.com" style="padding: 8px; margin: 5px;">
+        <input type="password" id="regPassword" placeholder="Password" value="newpass123" style="padding: 8px; margin: 5px;">
+        <button class="test-button" onclick="testRegistration()">Test Registration</button>
+        <div id="regResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Token Verification Test</h2>
+        <button class="test-button" onclick="testTokenVerification()">Test Token Verification</button>
+        <div id="tokenResult" class="result" style="display: none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Browser Console</h2>
+        <button class="test-button" onclick="clearConsole()">Clear Console</button>
+        <div id="consoleOutput" class="result info" style="max-height: 200px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://64.225.29.147:5000';
+        
+        // Display current page info
+        document.getElementById('currentPage').textContent = window.location.href;
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+
+        // Console logging
+        function logToConsole(message, type = 'info') {
+            const consoleDiv = document.getElementById('consoleOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}\n`;
+            consoleDiv.textContent += logEntry;
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function clearConsole() {
+            document.getElementById('consoleOutput').textContent = '';
+        }
+
+        function showResult(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `result ${isError ? 'error' : 'success'}`;
+            element.style.display = 'block';
+            logToConsole(message, isError ? 'error' : 'info');
+        }
+
+        async function testBasicConnectivity() {
+            logToConsole('Testing basic connectivity...');
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const result = {
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: Object.fromEntries(response.headers.entries()),
+                    url: response.url
+                };
+                
+                showResult('basicResult', `Connectivity Test Result:\n${JSON.stringify(result, null, 2)}`);
+            } catch (error) {
+                showResult('basicResult', `Connectivity Test Failed:\n${error.message}`, true);
+            }
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+            
+            logToConsole(`Testing login with email: ${email}`);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+                const result = {
+                    status: response.status,
+                    statusText: response.statusText,
+                    data: data,
+                    headers: Object.fromEntries(response.headers.entries())
+                };
+                
+                showResult('loginResult', `Login Test Result:\n${JSON.stringify(result, null, 2)}`);
+                
+                if (response.ok && data.token) {
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('userEmail', email);
+                    logToConsole('Login successful, token stored');
+                }
+            } catch (error) {
+                showResult('loginResult', `Login Test Failed:\n${error.message}`, true);
+            }
+        }
+
+        async function testRegistration() {
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            
+            logToConsole(`Testing registration with email: ${email}`);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+                const result = {
+                    status: response.status,
+                    statusText: response.statusText,
+                    data: data,
+                    headers: Object.fromEntries(response.headers.entries())
+                };
+                
+                showResult('regResult', `Registration Test Result:\n${JSON.stringify(result, null, 2)}`);
+            } catch (error) {
+                showResult('regResult', `Registration Test Failed:\n${error.message}`, true);
+            }
+        }
+
+        async function testTokenVerification() {
+            const token = localStorage.getItem('authToken');
+            
+            if (!token) {
+                showResult('tokenResult', 'No token found. Please login first.', true);
+                return;
+            }
+            
+            logToConsole('Testing token verification...');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+                const result = {
+                    status: response.status,
+                    statusText: response.statusText,
+                    data: data,
+                    headers: Object.fromEntries(response.headers.entries())
+                };
+                
+                showResult('tokenResult', `Token Verification Result:\n${JSON.stringify(result, null, 2)}`);
+            } catch (error) {
+                showResult('tokenResult', `Token Verification Failed:\n${error.message}`, true);
+            }
+        }
+
+        // Initialize console
+        logToConsole('API Test page loaded');
+        logToConsole(`API Base URL: ${API_BASE_URL}`);
+        logToConsole(`Current URL: ${window.location.href}`);
+    </script>
+</body>
+</html> 
