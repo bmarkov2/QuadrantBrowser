@@ -1,5 +1,5 @@
 // API Configuration - Update this with your droplet IP or domain
-const API_BASE_URL = 'http://64.225.29.147:5000'; // Your DigitalOcean droplet
+const API_BASE_URL = 'https://api.quadrantbrowser.com'; // Use HTTPS domain
 
 // DOM Elements
 const loginBtn = document.getElementById('loginBtn');
