@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Quadrant Browser</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #333;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .user-details h2 {
+            margin: 0;
+            color: #333;
+        }
+        
+        .user-details p {
+            margin: 5px 0 0 0;
+            color: #666;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #c82333;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .dashboard-card h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .subscription-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-trial {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .download-section {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .download-section h2 {
+            margin: 0 0 20px 0;
+            font-size: 28px;
+        }
+        
+        .download-section p {
+            margin: 0 0 25px 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .download-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .features-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-icon {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .manage-subscription-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .manage-subscription-btn:hover {
+            background: #0056b3;
+        }
+        
+        .trial-upgrade {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .trial-upgrade h3 {
+            margin: 0 0 10px 0;
+        }
+        
+        .trial-upgrade p {
+            margin: 0 0 15px 0;
+            opacity: 0.9;
+        }
+        
+        .upgrade-btn {
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .upgrade-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>Quadrant Browser</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#download">Download</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <h2 id="userName">User</h2>
+                    <p id="userEmail">user@example.com</p>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div id="trialUpgrade" class="trial-upgrade" style="display: none;">
+            <h3>Upgrade to Premium</h3>
+            <p>Unlock all 4 quadrants and premium features for just $4/month</p>
+            <button class="upgrade-btn" onclick="upgradeToPremium()">Upgrade Now</button>
+        </div>
+
+        <div class="download-section">
+            <h2>Download Quadrant Browser</h2>
+            <p>Get the latest version of Quadrant Browser for Windows</p>
+            <button class="download-btn" onclick="downloadApp()">Download Now</button>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h3>Subscription Status</h3>
+                <div class="subscription-status">
+                    <span id="statusBadge" class="status-badge status-trial">Trial</span>
+                    <span id="statusText">Free Trial Active</span>
+                </div>
+                <p id="subscriptionDetails">You're currently on the free trial. Upgrade to unlock all features.</p>
+                <button id="manageBtn" class="manage-subscription-btn" onclick="manageSubscription()">Manage Subscription</button>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Your Features</h3>
+                <ul class="features-list" id="featuresList">
+                    <li><span class="feature-icon">✓</span> 2 Active Quadrants</li>
+                    <li><span class="feature-icon">✓</span> Basic Navigation</li>
+                    <li><span class="feature-icon">✓</span> Web Browsing</li>
+                    <li><span class="feature-icon">✗</span> All 4 Quadrants (Premium)</li>
+                    <li><span class="feature-icon">✗</span> Premium Support (Premium)</li>
+                </ul>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Account Information</h3>
+                <p><strong>Email:</strong> <span id="accountEmail">user@example.com</span></p>
+                <p><strong>Member Since:</strong> <span id="memberSince">Loading...</span></p>
+                <p><strong>Last Login:</strong> <span id="lastLogin">Loading...</span></p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Support</h3>
+                <p>Need help? We're here to assist you.</p>
+                <ul class="features-list">
+                    <li><span class="feature-icon">📧</span> <a href="mailto:support@quadrantbrowser.com">Email Support</a></li>
+                    <li><span class="feature-icon">📖</span> <a href="index.html#faq">FAQ</a></li>
+                    <li><span class="feature-icon">🔧</span> <a href="index.html#download">Installation Guide</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Quadrant Browser. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://64.225.29.147:5000';
+
+        // Check if user is logged in
+        function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            const email = localStorage.getItem('userEmail');
+            
+            if (!token || !email) {
+                // Not logged in, redirect to home page
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Update user info
+            document.getElementById('userEmail').textContent = email;
+            document.getElementById('accountEmail').textContent = email;
+            document.getElementById('userName').textContent = email.split('@')[0];
+            document.getElementById('userAvatar').textContent = email.charAt(0).toUpperCase();
+            
+            // Load user data
+            loadUserData();
+        }
+
+        async function loadUserData() {
+            const token = localStorage.getItem('authToken');
+            
+            try {
+                // Check subscription status
+                const response = await fetch(`${API_BASE_URL}/api/subscription/status`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateSubscriptionStatus(data.isSubscribed);
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+            
+            // Set member since date (for demo purposes)
+            document.getElementById('memberSince').textContent = new Date().toLocaleDateString();
+            document.getElementById('lastLogin').textContent = new Date().toLocaleString();
+        }
+
+        function updateSubscriptionStatus(isSubscribed) {
+            const statusBadge = document.getElementById('statusBadge');
+            const statusText = document.getElementById('statusText');
+            const subscriptionDetails = document.getElementById('subscriptionDetails');
+            const featuresList = document.getElementById('featuresList');
+            const trialUpgrade = document.getElementById('trialUpgrade');
+            
+            if (isSubscribed) {
+                statusBadge.textContent = 'Active';
+                statusBadge.className = 'status-badge status-active';
+                statusText.textContent = 'Premium Subscription Active';
+                subscriptionDetails.textContent = 'You have access to all premium features.';
+                trialUpgrade.style.display = 'none';
+                
+                // Update features list for premium
+                featuresList.innerHTML = `
+                    <li><span class="feature-icon">✓</span> All 4 Active Quadrants</li>
+                    <li><span class="feature-icon">✓</span> Premium Navigation</li>
+                    <li><span class="feature-icon">✓</span> Web Browsing</li>
+                    <li><span class="feature-icon">✓</span> Premium Support</li>
+                    <li><span class="feature-icon">✓</span> Priority Updates</li>
+                `;
+            } else {
+                statusBadge.textContent = 'Trial';
+                statusBadge.className = 'status-badge status-trial';
+                statusText.textContent = 'Free Trial Active';
+                subscriptionDetails.textContent = 'You\'re currently on the free trial. Upgrade to unlock all features.';
+                trialUpgrade.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            window.location.href = 'index.html';
+        }
+
+        function downloadApp() {
+            // For now, just show a message
+            alert('Download functionality will be implemented soon. Please visit the main page for download links.');
+        }
+
+        function upgradeToPremium() {
+            // Redirect to Stripe checkout
+            window.open('https://buy.stripe.com/test_28E3cvgrueS9eGhfag4sE00', '_blank');
+        }
+
+        function manageSubscription() {
+            // For now, redirect to Stripe customer portal or show a message
+            alert('Subscription management will be implemented soon. Please contact support for assistance.');
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    </script>
+</body>
+</html> 
