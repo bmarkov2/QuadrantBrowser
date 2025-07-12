@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Quadrant Browser</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="styles.css">
     <style>
         .dashboard-container {
@@ -59,10 +60,27 @@
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
         
         .logout-btn:hover {
             background: #c82333;
+        }
+        
+        nav ul li button {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            font-size: inherit;
+        }
+        
+        nav ul li button:hover {
+            color: var(--primary-color);
         }
         
         .dashboard-grid {
@@ -117,7 +135,7 @@
             color: white;
             padding: 40px;
             border-radius: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         .download-section h2 {
@@ -224,17 +242,17 @@
 <body>
     <header>
         <nav>
-            <div class="nav-container">
-                <div class="logo">
-                    <h1>Quadrant Browser</h1>
-                </div>
-                <div class="nav-links">
-                    <a href="index.html">Home</a>
-                    <a href="#features">Features</a>
-                    <a href="#pricing">Pricing</a>
-                    <a href="#download">Download</a>
-                </div>
+            <div class="logo">
+                <img src="images/QBLogo.png" alt="Quadrant Browser Logo" class="nav-logo">
+                <span></span>
             </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="index.html#download">Download</a></li>
+                <li><button onclick="logout()">Logout</button></li>
+            </ul>
         </nav>
     </header>
 
@@ -247,19 +265,12 @@
                     <p id="userEmail">user@example.com</p>
                 </div>
             </div>
-            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
 
         <div id="trialUpgrade" class="trial-upgrade" style="display: none;">
             <h3>Upgrade to Premium</h3>
             <p>Unlock all 4 quadrants and premium features for just $4/month</p>
             <button class="upgrade-btn" onclick="upgradeToPremium()">Upgrade Now</button>
-        </div>
-
-        <div class="download-section">
-            <h2>Download Quadrant Browser</h2>
-            <p>Get the latest version of Quadrant Browser for Windows</p>
-            <button class="download-btn" onclick="downloadApp()">Download Now</button>
         </div>
 
         <div class="dashboard-grid">
@@ -300,6 +311,14 @@
                     <li><span class="feature-icon">🔧</span> <a href="index.html#download">Installation Guide</a></li>
                 </ul>
             </div>
+
+            <div class="dashboard-card">
+                <div class="download-section">
+                    <h2>Download Quadrant Browser</h2>
+                    <p>Get the latest version of Quadrant Browser for Windows</p>
+                    <button class="download-btn" onclick="downloadApp()">Download Now</button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -307,6 +326,7 @@
         <p>&copy; 2024 Quadrant Browser. All rights reserved.</p>
     </footer>
 
+    <script src="auth.js"></script>
     <script>
         // API Configuration
         const API_BASE_URL = 'https://api.quadrantbrowser.com';
