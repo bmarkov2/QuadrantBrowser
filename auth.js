@@ -139,135 +139,152 @@ async function register(email, password) {
     }
 }
 
-// Event Listeners
-loginBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (!localStorage.getItem('authToken')) {
-        openModal(loginModal);
-    }
-});
-
-// Close modal when clicking X
-closeButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        closeModal(loginModal);
-        closeModal(registerModal);
+// Event Listeners - only add if elements exist (for homepage)
+if (loginBtn) {
+    loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!localStorage.getItem('authToken')) {
+            openModal(loginModal);
+        }
     });
-});
+}
 
-// Close modal when clicking outside
-window.addEventListener('click', (e) => {
-    if (e.target === loginModal) {
+// Close modal when clicking X - only add if elements exist
+if (closeButtons.length > 0) {
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            closeModal(loginModal);
+            closeModal(registerModal);
+        });
+    });
+}
+
+// Close modal when clicking outside - only add if modals exist
+if (loginModal || registerModal) {
+    window.addEventListener('click', (e) => {
+        if (loginModal && e.target === loginModal) {
+            closeModal(loginModal);
+        }
+        if (registerModal && e.target === registerModal) {
+            closeModal(registerModal);
+        }
+    });
+}
+
+// Switch between login and register modals - only add if elements exist
+if (showRegisterLink) {
+    showRegisterLink.addEventListener('click', (e) => {
+        e.preventDefault();
         closeModal(loginModal);
-    }
-    if (e.target === registerModal) {
+        openModal(registerModal);
+    });
+}
+
+if (showLoginLink) {
+    showLoginLink.addEventListener('click', (e) => {
+        e.preventDefault();
         closeModal(registerModal);
-    }
-});
+        openModal(loginModal);
+    });
+}
 
-// Switch between login and register modals
-showRegisterLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    closeModal(loginModal);
-    openModal(registerModal);
-});
+// Forgot password - only add if element exists
+if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        if (email) {
+            // You can implement password reset here
+            alert('Password reset functionality will be implemented soon.');
+        } else {
+            alert('Please enter your email address first.');
+        }
+    });
+}
 
-showLoginLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    closeModal(registerModal);
-    openModal(loginModal);
-});
+// Login form submission - only add if element exists
+if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        
+        // Basic validation
+        if (!email || !password) {
+            showMessage('errorMessage', 'Please fill in all fields.', true);
+            return;
+        }
+        
+        if (!email.includes('@')) {
+            showMessage('errorMessage', 'Please enter a valid email address.', true);
+            return;
+        }
+        
+        hideMessage('errorMessage');
+        hideMessage('successMessage');
+        setLoading(loginForm, true);
+        
+        try {
+            await login(email, password);
+        } finally {
+            setLoading(loginForm, false);
+        }
+    });
+}
 
-// Forgot password
-forgotPasswordLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    if (email) {
-        // You can implement password reset here
-        alert('Password reset functionality will be implemented soon.');
-    } else {
-        alert('Please enter your email address first.');
-    }
-});
+// Register form submission - only add if element exists
+if (registerForm) {
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const agreeTerms = document.getElementById('agreeTerms').checked;
+        
+        // Basic validation
+        if (!email || !password || !confirmPassword) {
+            showMessage('registerErrorMessage', 'Please fill in all fields.', true);
+            return;
+        }
+        
+        if (!email.includes('@')) {
+            showMessage('registerErrorMessage', 'Please enter a valid email address.', true);
+            return;
+        }
+        
+        if (password !== confirmPassword) {
+            showMessage('registerErrorMessage', 'Passwords do not match.', true);
+        }
+        
+        if (password.length < 6) {
+            showMessage('registerErrorMessage', 'Password must be at least 6 characters long.', true);
+            return;
+        }
+        
+        if (!agreeTerms) {
+            showMessage('registerErrorMessage', 'Please agree to the Terms of Service.', true);
+            return;
+        }
+        
+        hideMessage('registerErrorMessage');
+        hideMessage('registerSuccessMessage');
+        setLoading(registerForm, true);
+        
+        try {
+            await register(email, password);
+        } finally {
+            setLoading(registerForm, false);
+        }
+    });
+}
 
-// Login form submission
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    
-    // Basic validation
-    if (!email || !password) {
-        showMessage('errorMessage', 'Please fill in all fields.', true);
-        return;
-    }
-    
-    if (!email.includes('@')) {
-        showMessage('errorMessage', 'Please enter a valid email address.', true);
-        return;
-    }
-    
-    hideMessage('errorMessage');
-    hideMessage('successMessage');
-    setLoading(loginForm, true);
-    
-    try {
-        await login(email, password);
-    } finally {
-        setLoading(loginForm, false);
-    }
-});
-
-// Register form submission
-registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('registerEmail').value.trim();
-    const password = document.getElementById('registerPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const agreeTerms = document.getElementById('agreeTerms').checked;
-    
-    // Basic validation
-    if (!email || !password || !confirmPassword) {
-        showMessage('registerErrorMessage', 'Please fill in all fields.', true);
-        return;
-    }
-    
-    if (!email.includes('@')) {
-        showMessage('registerErrorMessage', 'Please enter a valid email address.', true);
-        return;
-    }
-    
-    if (password !== confirmPassword) {
-        showMessage('registerErrorMessage', 'Passwords do not match.', true);
-        return;
-    }
-    
-    if (password.length < 6) {
-        showMessage('registerErrorMessage', 'Password must be at least 6 characters long.', true);
-        return;
-    }
-    
-    if (!agreeTerms) {
-        showMessage('registerErrorMessage', 'Please agree to the Terms of Service.', true);
-        return;
-    }
-    
-    hideMessage('registerErrorMessage');
-    hideMessage('registerSuccessMessage');
-    setLoading(registerForm, true);
-    
-    try {
-        await register(email, password);
-    } finally {
-        setLoading(registerForm, false);
-    }
-});
-
-// Initialize auth status on page load
+// Initialize auth status on page load - only if we're on the homepage
 document.addEventListener('DOMContentLoaded', () => {
-    checkAuthStatus();
+    if (loginBtn) { // Only run on homepage
+        checkAuthStatus();
+    }
 });
 
 // Logout function (can be called from dashboard)
