@@ -349,18 +349,16 @@
                 return;
             }
             
-            // Update user info
-            document.getElementById('userEmail').textContent = email;
-            document.getElementById('accountEmail').textContent = email;
-            document.getElementById('userName').textContent = email.split('@')[0];
-            document.getElementById('userAvatar').textContent = email.charAt(0).toUpperCase();
-            
-            // Load user data
+            // Don't set user info yet - wait for backend verification
+            // Load user data from backend first
             loadUserData();
         }
 
         async function loadUserData() {
             const token = localStorage.getItem('authToken');
+            
+            console.log('Loading user data with token:', token ? 'Token exists' : 'No token');
+            console.log('API URL:', `${API_BASE_URL}/api/auth/verify`);
             
             try {
                 // Verify user and get real data from backend
@@ -370,8 +368,12 @@
                     }
                 });
                 
+                console.log('API Response status:', response.status);
+                console.log('API Response ok:', response.ok);
+                
                 if (response.ok) {
                     const userData = await response.json();
+                    console.log('User data received:', userData);
                     
                     // Update user info with real data from backend
                     document.getElementById('userEmail').textContent = userData.email;
@@ -387,7 +389,9 @@
                     updateSubscriptionStatus(userData.isSubscribed);
                 } else {
                     // If verification fails, redirect to login
-                    console.error('User verification failed');
+                    console.error('User verification failed - Status:', response.status);
+                    const errorText = await response.text();
+                    console.error('Error response:', errorText);
                     logout();
                     return;
                 }
@@ -397,8 +401,6 @@
                 logout();
                 return;
             }
-            
-            // These are now set from the backend response above
         }
 
         function updateSubscriptionStatus(isSubscribed) {
