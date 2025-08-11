@@ -266,10 +266,10 @@
     <main class="dashboard-container">
         <div class="dashboard-header">
             <div class="user-info">
-                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-avatar" id="userAvatar">L</div>
                 <div class="user-details">
-                    <h2 id="userName">User</h2>
-                    <p id="userEmail">user@example.com</p>
+                    <h2 id="userName">Loading...</h2>
+                    <p id="userEmail">Loading...</p>
                 </div>
             </div>
         </div>
@@ -304,7 +304,7 @@
 
             <div class="dashboard-card">
                 <h3>Account Information</h3>
-                <p><strong>Email:</strong> <span id="accountEmail">user@example.com</span></p>
+                <p><strong>Email:</strong> <span id="accountEmail">Loading...</span></p>
                 <p><strong>Member Since:</strong> <span id="memberSince">Loading...</span></p>
                 <p><strong>Last Login:</strong> <span id="lastLogin">Loading...</span></p>
             </div>
@@ -436,9 +436,13 @@
 
         // Logout function - properly clear auth and redirect
         function logout() {
+            console.log('Logout function called');
+            
             // Clear all auth data
             localStorage.removeItem('authToken');
             localStorage.removeItem('userEmail');
+            
+            console.log('Auth data cleared, redirecting to homepage...');
             
             // Force redirect to homepage with cache busting
             window.location.replace('index.html?logout=' + Date.now());

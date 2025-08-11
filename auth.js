@@ -272,14 +272,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Logout function (can be called from dashboard)
 function logout() {
+    console.log('Auth.js logout function called');
+    
     localStorage.removeItem('authToken');
     localStorage.removeItem('userEmail');
-    loginBtn.textContent = 'Login';
-    loginBtn.href = '#';
-    loginBtn.onclick = (e) => {
-        e.preventDefault();
-        openModal(loginModal);
-    };
+    
+    // Only update login button if it exists (for homepage)
+    if (loginBtn) {
+        loginBtn.textContent = 'Login';
+        loginBtn.href = '#';
+        loginBtn.onclick = (e) => {
+            e.preventDefault();
+            openModal(loginModal);
+        };
+    }
+    
+    console.log('Auth data cleared, redirecting to homepage...');
     // Force redirect to homepage with cache busting
     window.location.replace('index.html?logout=' + Date.now());
 } 
