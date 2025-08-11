@@ -248,7 +248,9 @@
     <header>
         <nav>
             <div class="logo">
-                <img src="images/QBLogo.png" alt="Quadrant Browser Logo" class="nav-logo">
+                <a href="index.html">
+                    <img src="images/QBLogo.png" alt="Quadrant Browser Logo" class="nav-logo">
+                </a>
                 <span></span>
             </div>
             <ul>
@@ -361,24 +363,42 @@
             const token = localStorage.getItem('authToken');
             
             try {
-                // Check subscription status
-                const response = await fetch(`${API_BASE_URL}/api/subscription/status`, {
+                // Verify user and get real data from backend
+                const response = await fetch(`${API_BASE_URL}/api/auth/verify`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
                 
                 if (response.ok) {
-                    const data = await response.json();
-                    updateSubscriptionStatus(data.isSubscribed);
+                    const userData = await response.json();
+                    
+                    // Update user info with real data from backend
+                    document.getElementById('userEmail').textContent = userData.email;
+                    document.getElementById('accountEmail').textContent = userData.email;
+                    document.getElementById('userName').textContent = userData.email.split('@')[0];
+                    document.getElementById('userAvatar').textContent = userData.email.charAt(0).toUpperCase();
+                    
+                    // Update member since and last login with real data
+                    document.getElementById('memberSince').textContent = userData.memberSince;
+                    document.getElementById('lastLogin').textContent = userData.lastLogin;
+                    
+                    // Update subscription status
+                    updateSubscriptionStatus(userData.isSubscribed);
+                } else {
+                    // If verification fails, redirect to login
+                    console.error('User verification failed');
+                    logout();
+                    return;
                 }
             } catch (error) {
                 console.error('Error loading user data:', error);
+                // If there's an error, redirect to login
+                logout();
+                return;
             }
             
-            // Set member since date (for demo purposes)
-            document.getElementById('memberSince').textContent = new Date().toLocaleDateString();
-            document.getElementById('lastLogin').textContent = new Date().toLocaleString();
+            // These are now set from the backend response above
         }
 
         function updateSubscriptionStatus(isSubscribed) {
@@ -412,13 +432,14 @@
             }
         }
 
-        // Logout function is handled by auth.js
-        // Override logout to ensure proper redirect
+        // Logout function - properly clear auth and redirect
         function logout() {
+            // Clear all auth data
             localStorage.removeItem('authToken');
             localStorage.removeItem('userEmail');
-            // Force redirect to homepage
-            window.location.replace('index.html');
+            
+            // Force redirect to homepage with cache busting
+            window.location.replace('index.html?logout=' + Date.now());
         }
 
         function downloadApp() {

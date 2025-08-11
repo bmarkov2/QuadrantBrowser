@@ -280,5 +280,6 @@ function logout() {
         e.preventDefault();
         openModal(loginModal);
     };
-    window.location.href = 'index.html';
+    // Force redirect to homepage with cache busting
+    window.location.replace('index.html?logout=' + Date.now());
 } 
